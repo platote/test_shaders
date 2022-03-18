@@ -14,9 +14,11 @@ const fragmentShaderSource = `
   precision mediump float;
   ${THREE.ShaderChunk.logdepthbuf_pars_fragment}
 
+  uniform float u_time;
+
   void main() {
 
-  gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+  gl_FragColor = vec4(abs(sin(u_time)), 0.0, 0.0, 1.0);
   ${THREE.ShaderChunk.logdepthbuf_fragment}
 }`;
 
