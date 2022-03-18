@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import metaversefile from 'metaversefile';
-const {useApp} = metaversefile;
+const {useApp, useFrame} = metaversefile;
 import { vertexShaderSource, fragmentShaderSource } from './shaders.js';
 
 export default e => {
@@ -9,7 +9,10 @@ export default e => {
   const material = new THREE.ShaderMaterial({
     vertexShader : vertexShaderSource,
     fragmentShader : fragmentShaderSource,
-    side : THREE.DoubleSide
+    side : THREE.DoubleSide,
+    uniforms : {
+      u_time : {value : 0}
+    }
   });
   
 
@@ -20,6 +23,14 @@ export default e => {
 
   app.add(plane);
   app.updateMatrixWorld();
+
+  const clock = new THREE.Clock();
+
+  useFrame( () => 
+  {
+    const elapsedTime = clock.getElapsedTime();
+    material.uniforms.u_time.value = elapsedTime;
+  })
 
   return app;
 }
